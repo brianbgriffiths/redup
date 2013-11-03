@@ -70,9 +70,18 @@ Object.size = function(obj) {
     return size;
 };
 
+Object.printobj = function(obj) {
+	var output="";
+	for (key in obj) { output+="\n"+key+": "+obj[key]; }
+	return output;
+};
+
 //$("#data").load('http://developer.mbta.com/lib/rthr/red.json');
 
 var data;
+
+
+function fetch() {
 $("#platform").html("connecting...<div class=\"arrow1\"></div>");
 
 getjson=$.post('getter.php', function(datas){
@@ -80,8 +89,10 @@ getjson=$.post('getter.php', function(datas){
 	data=datas;
 	update();
 },"json").fail(function() {
-  $("#platform").html("Failed.<div class=\"arrow1\"></div>");
+  $("#platform").html("Failed to load data.<div id=\"refresh\" onClick=\"fetch();\"></div>");
   });
+
+}
 
 
 /*
@@ -126,6 +137,11 @@ function update() {
 	platform+="<div id=\"refresh\" onClick=\"location.reload();\"></div>";
 	$("#platform").html(platform);
 }
+$( document ).ajaxError(function(er) {
+  
+  $( "#data" ).text( Object.printobj(er) );
+});
+fetch();
 //$("#data").html(display);
 </script>
 </body>
