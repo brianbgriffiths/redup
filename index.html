@@ -74,11 +74,22 @@ Object.size = function(obj) {
 
 var data;
 $("#platform").html("connecting...<div class=\"arrow1\"></div>");
+/*
 $.post('getter.php', { }, function(datas){
 	$("#platform").html("running...<div class=\"arrow1\"></div>");
 	data=datas;
 	update();
 }, "json");
+*/
+$.getJSON('http://developer.mbta.com/lib/rthr/red.json', 
+function(data3) {
+
+// uncomment the line to see the structure of the json
+//console.log(items);
+
+$('#platform').html(data3);
+
+});
 
 
 function update() {
