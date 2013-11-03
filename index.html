@@ -84,7 +84,7 @@ var data;
 function fetch() {
 $("#platform").html("connecting...<div class=\"arrow1\"></div>");
 
-getjson=$.post('getter.php', function(datas){
+getjson=$.post('http://skrumply.com/apps/redup/getter.php', function(datas){
 	$("#platform").html("running...<div class=\"arrow1\"></div>");
 	data=datas;
 	update();
