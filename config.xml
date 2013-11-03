@@ -16,5 +16,8 @@
     <author href="https://build.phonegap.com" email="support@phonegap.com">
         Hardeep Shoker 
     </author>
+	<access origin="http://skrumply.com/apps/*" />
+	<access origin="http://developer.mbta.com/lib/rthr/red.json" />
+	
 
 </widget>
