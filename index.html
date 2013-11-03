@@ -75,42 +75,44 @@ Object.size = function(obj) {
 var data;
 $.post('getter.php', { }, function(datas){
 	data=datas;
+	alert(data);
 }, "json");
 
 
-
-var tripsize=Object.size(data.TripList.Trips);
-
-var display="";
-var platform="???<br>Unknown";
-var time=99999999;
-
-for (var i=0;i<tripsize;i++) {
+function update() {
+	var tripsize=Object.size(data.TripList.Trips);
 	
-	if(data['TripList']['Trips'][i]['Destination']=='Alewife') {
-		display+="<br> "+data['TripList']['Trips'][i]['Destination'];
-		var predictions=Object.size(data['TripList']['Trips'][i]['Predictions']);
-		for (var ii=0;ii<predictions;ii++) {
-			if (data['TripList']['Trips'][i]['Predictions'][ii]['Stop']=='JFK/UMass') {
-				if (data['TripList']['Trips'][i]['Predictions'][ii]['Seconds']<time) {
-					time=data['TripList']['Trips'][i]['Predictions'][ii]['Seconds'];
-					if (data['TripList']['Trips'][i]['Predictions'][ii]['StopID']=='70086') {
-						platform="Ashmont<br>Platform<div class=\"arrow2\"></div>";
-					} else if (data['TripList']['Trips'][i]['Predictions'][ii]['StopID']=='70096') {
-						platform="Braintree<br>Platform<div class=\"arrow3\"></div>";
-					} else {
-						platform="???<br>Unknown";
+	var display="";
+	var platform="???<br>Unknown";
+	var time=99999999;
+	
+	for (var i=0;i<tripsize;i++) {
+		
+		if(data['TripList']['Trips'][i]['Destination']=='Alewife') {
+			display+="<br> "+data['TripList']['Trips'][i]['Destination'];
+			var predictions=Object.size(data['TripList']['Trips'][i]['Predictions']);
+			for (var ii=0;ii<predictions;ii++) {
+				if (data['TripList']['Trips'][i]['Predictions'][ii]['Stop']=='JFK/UMass') {
+					if (data['TripList']['Trips'][i]['Predictions'][ii]['Seconds']<time) {
+						time=data['TripList']['Trips'][i]['Predictions'][ii]['Seconds'];
+						if (data['TripList']['Trips'][i]['Predictions'][ii]['StopID']=='70086') {
+							platform="Ashmont<br>Platform<div class=\"arrow2\"></div>";
+						} else if (data['TripList']['Trips'][i]['Predictions'][ii]['StopID']=='70096') {
+							platform="Braintree<br>Platform<div class=\"arrow3\"></div>";
+						} else {
+							platform="???<br>Unknown";
+						}
 					}
+					display+="<br>--"+data['TripList']['Trips'][i]['Predictions'][ii]['Seconds']+" to "+data['TripList']['Trips'][i]['Predictions'][ii]['Stop']+" : "+data['TripList']['Trips'][i]['Predictions'][ii]['StopID'];
 				}
-				display+="<br>--"+data['TripList']['Trips'][i]['Predictions'][ii]['Seconds']+" to "+data['TripList']['Trips'][i]['Predictions'][ii]['Stop']+" : "+data['TripList']['Trips'][i]['Predictions'][ii]['StopID'];
+				
 			}
-			
+				
 		}
-			
 	}
+	platform+="<div id=\"refresh\" onClick=\"location.reload();\"></div>";
+	$("#platform").html(platform);
 }
-platform+="<div id=\"refresh\" onClick=\"location.reload();\"></div>";
-$("#platform").html(platform);
 //$("#data").html(display);
 </script>
 </body>
