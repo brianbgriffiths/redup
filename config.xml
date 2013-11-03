@@ -14,7 +14,7 @@
     </description>
 
     <author href="https://skrumply.com/apps" email="crabrock@gmail.com">
-        Hardeep Shoker 
+        Brian B. Griffiths
     </author>
 	<access origin="http://skrumply.com/apps/*" />
 	<access origin="http://developer.mbta.com/lib/rthr/red.json" />

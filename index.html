@@ -51,6 +51,9 @@
 #refresh:hover {
 	background:url('refresh.png') no-repeat -100px 0;	
 }
+#cd {
+	color:white;	
+}
 body {
 	background-color:#C00;	
 }
@@ -60,6 +63,7 @@ body {
 <body>
 <div id="platform">...<div class="arrow1"></div></div>
 <div id="data"></div>
+<input type="hidden" id="timetil" val="0">
 
 <script type="text/javascript">
 Object.size = function(obj) {
@@ -70,11 +74,6 @@ Object.size = function(obj) {
     return size;
 };
 
-Object.printobj = function(obj) {
-	var output="";
-	for (key in obj) { output+="\n"+key+": "+obj[key]; }
-	return output;
-};
 
 //$("#data").load('http://developer.mbta.com/lib/rthr/red.json');
 
@@ -102,7 +101,7 @@ $('#platform').html(data3);
 });
 */
 
-
+var timeri;
 function update() {
 	var tripsize=Object.size(data.TripList.Trips);
 	
@@ -119,15 +118,20 @@ function update() {
 				if (data['TripList']['Trips'][i]['Predictions'][ii]['Stop']=='JFK/UMass') {
 					if (data['TripList']['Trips'][i]['Predictions'][ii]['Seconds']<time) {
 						time=data['TripList']['Trips'][i]['Predictions'][ii]['Seconds'];
+						var secstil=data['TripList']['Trips'][i]['Predictions'][ii]['Seconds'];
 						if (data['TripList']['Trips'][i]['Predictions'][ii]['StopID']=='70086') {
-							platform="Ashmont<br>Platform<div class=\"arrow2\"></div>";
+							platform="Ashmont<br>Platform<br><span id=\"cd\"></span><div class=\"arrow2\"></div>";
 						} else if (data['TripList']['Trips'][i]['Predictions'][ii]['StopID']=='70096') {
-							platform="Braintree<br>Platform<div class=\"arrow3\"></div>";
+							platform="Braintree<br>Platform<br><div id=\"cd\">--</div><div class=\"arrow3\"></div>";
 						} else {
 							platform="???<br>Unknown";
 						}
+						
+						
 					}
+					
 					display+="<br>--"+data['TripList']['Trips'][i]['Predictions'][ii]['Seconds']+" to "+data['TripList']['Trips'][i]['Predictions'][ii]['Stop']+" : "+data['TripList']['Trips'][i]['Predictions'][ii]['StopID'];
+					
 				}
 				
 			}
@@ -136,11 +140,25 @@ function update() {
 	}
 	platform+="<div id=\"refresh\" onClick=\"location.reload();\"></div>";
 	$("#platform").html(platform);
+	if (time>0) {
+		$("#timetil").val(time);
+		var mins=Math.floor(secstil/60);
+		var secs=time-(mins*60)+1;
+		if (secs<10){ secs="0"+secs; }
+		$("#cd").html(mins+":"+secs);
+		clearInterval(timeri);
+		timeri=setInterval("timer();",1000);
+	}
 }
-$( document ).ajaxError(function(er) {
-  
-  $( "#data" ).text( Object.printobj(er) );
-});
+function timer() {
+	var ct=parseInt($("#timetil").val());
+	if (ct==0) {clearInterval(timeri); return; }
+	$("#timetil").val(ct-1);
+	var mins=Math.floor(ct/60);
+	var secs=ct-(mins*60);
+	if (secs<10){ secs="0"+secs; }
+	$("#cd").html(mins+":"+secs);
+}
 fetch();
 //$("#data").html(display);
 </script>
