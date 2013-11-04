@@ -152,7 +152,7 @@ function update() {
 }
 function timer() {
 	var ct=parseInt($("#timetil").val());
-	if (ct==0) {clearInterval(timeri); return; }
+	if (ct==0) {clearInterval(timeri); return; location.reload();}
 	$("#timetil").val(ct-1);
 	var mins=Math.floor(ct/60);
 	var secs=ct-(mins*60);

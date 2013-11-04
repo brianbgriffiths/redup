@@ -18,6 +18,7 @@
     </author>
 	<access origin="http://skrumply.com/apps/*" />
 	<access origin="http://developer.mbta.com/lib/rthr/red.json" />
-	
+	<preference name="permissions" value="none"/>
+	<preference name="splash-screen-duration" value="1"/>
 
 </widget>
